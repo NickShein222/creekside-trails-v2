@@ -1,0 +1,272 @@
+/* styles.css (Minimal Clean Version) */
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.hero {
+  position: relative;
+  height: 90vh;
+  background: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHZjcmViYnFtZmU2aW5wMDhkdW8yN2Zkcm9xb2c5cmNvZXBrZGN4NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o85xEfx9JC73A6gq4/giphy.gif') center center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.primary-btn {
+  background: #006d77;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  background: #004f4b;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Layout Wrapper */
+.map-weather-wrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin: 2rem;
+}
+
+.map-section,
+.right-panel,
+.identify-audio-wrapper,
+.smart-audio-guide-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Map iframe */
+.map-container iframe {
+  width: 100%;
+  height: 300px;
+  border: none;
+  border-radius: 12px;
+}
+
+/* Weather and Challenges */
+.current-conditions,
+.daily-challenges {
+  margin-bottom: 2rem;
+}
+
+.conditions-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.weather-icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.conditions-info {
+  flex: 1;
+}
+
+.weather-text h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.location {
+  font-weight: bold;
+  color: #0077aa;
+  font-size: 14px;
+}
+
+.temperature {
+  font-size: 24px;
+}
+
+.description {
+  font-size: 14px;
+  color: #555;
+}
+
+.trail-status {
+  margin-top: 10px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #00aa66;
+  background: #e0ffe0;
+  border: 2px solid #00aa66;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.challenge-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-size: 16px;
+}
+
+.challenge-status.complete {
+  color: #00aa66;
+  font-weight: bold;
+}
+
+.challenge-status.incomplete {
+  color: #999;
+  font-weight: bold;
+}
+
+/* Identify Species */
+.identify-species {
+  text-align: center;
+}
+
+.camera-btn {
+  background: none;
+  border: 2px solid #006d77;
+  border-radius: 50%;
+  padding: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.3s;
+}
+
+.camera-btn:hover {
+  transform: scale(1.1);
+}
+
+.camera-btn img {
+  width: 30px;
+  height: 30px;
+}
+
+/* Audio Guide */
+.smart-audio-guide-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.audio-guide-box {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.audio-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+/* Emergency Bar */
+.emergency-bar {
+  background: #d00000;
+  color: white;
+  text-align: center;
+  padding: 0.8rem;
+  font-weight: bold;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .map-weather-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+.wildlife-explorer {
+  margin: 40px 20px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.trail-map-container {
+  position: relative;
+  margin-top: 20px;
+}
+
+.trail-map-container img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.animal-marker {
+  position: absolute;
+  font-size: 28px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.popup {
+  margin-top: 20px;
+  padding: 20px;
+  background: #e8f5e9;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+.close-btn {
+  margin-top: 10px;
+  background: #00aa66;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
