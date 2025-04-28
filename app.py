@@ -71,48 +71,6 @@ with col2:
     )
 
 st.divider()
-# Live crowd prediction based on time of day
-hour_of_day = datetime.datetime.now().hour
-if 7 <= hour_of_day <= 10:
-    crowd_level = 3  # morning low
-elif 11 <= hour_of_day <= 16:
-    crowd_level = 8  # afternoon peak
-else:
-    crowd_level = 5  # evening moderate
-
-
-# Weather impact score (based on live data you fetched earlier)
-weather_score = 0
-if temperature >= 85:
-    weather_score += 2
-if "Rain" in description or "Showers" in description:
-    weather_score += 3
-if wind_speed >= 15:
-    weather_score += 1
-
-
-# Calculate overall score
-popularity = segment_popularity.get(selected_trail, 5)
-overall_score = crowd_level + popularity + weather_score
-
-
-# Normalize for progress bar (0-30)
-progress_normalized = min(max(overall_score, 0), 30)
-
-
-# Display comfort score dynamically
-if overall_score >= 18:
-    st.error(f"🔥 Comfort & Safety Score: {overall_score}/30 – Hot, crowded, and risky conditions today.")
-elif overall_score >= 12:
-    st.warning(f"⚠️ Comfort & Safety Score: {overall_score}/30 – Conditions are moderate.")
-else:
-    st.success(f"✅ Comfort & Safety Score: {overall_score}/30 – Great time for a hike!")
-
-
-# Animated progress bar
-progress_bar = st.progress(0)
-for percent_complete in range(progress_normalized + 1):
-    progress_bar.progress(percent_complete / 30)
 
 
 
