@@ -281,31 +281,56 @@ if uploaded_file is not None:
                     else:
                         st.error("❌ Failed to fetch more info. Try again.")
 
-                if listen_audio_clicked:
-                    st.subheader("🎧 Overview Audio")
-    audio_response = requests.post(
-        "https://api.openai.com/v1/audio/speech",
-        headers={
-            "Authorization": f"Bearer {openai_api_key}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": "tts-1",
-            "input": species_info.get('Overview', 'This is a species overview.'),
-            "voice": "nova",
-            "response_format": "mp3"
-        }
-    )
+            if listen_audio_clicked:
+                 st.subheader("🎧 Overview Audio")
+    with st.spinner("Generating audio..."):
+        try:
+            audio_response = requests.post(
+                "https://api.openai.com/v1/audio/speech",
+                headers={
+                    "Authorization": f"Bearer {openai_api_key}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "model": "tts-1",
+                    "input": species_info.get('Overview', 'This is a species overview.'),
+                    "voice": "nova",
+                    "response_format": "mp3"
+                }
+            )
 
-    if audio_response.status_code == 200:
-        # Create a BytesIO object and write the content to it
-        audio_bytes = io.BytesIO(audio_response.content)
-        # Important: seek to the beginning of the stream
-        audio_bytes.seek(0)
-        # Pass to st.audio with explicit format
-        st.audio(audio_bytes, format="audio/mp3")
-    else:
-        st.error(f"❌ Failed to generate audio. Status code: {audio_response.status_code}")
+            if audio_response.status_code == 200:
+                # Save the audio file temporarily
+                timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+                temp_audio_path = f"temp_audio_{timestamp}.mp3"
+                
+                with open(temp_audio_path, "wb") as f:
+                    f.write(audio_response.content)
+                
+                # Read the file back and serve it
+                with open(temp_audio_path, "rb") as audio_file:
+                    audio_bytes = audio_file.read()
+                
+                # Create a download button for the audio as an alternative
+                st.audio(audio_bytes, format="audio/mp3")
+                st.download_button(
+                    label="📥 Download Audio",
+                    data=audio_bytes,
+                    file_name=f"overview_{timestamp}.mp3",
+                    mime="audio/mp3"
+                )
+                
+                # Clean up after serving
+                try:
+                    os.remove(temp_audio_path)
+                except:
+                    pass  # Ignore if file can't be deleted
+            else:
+                st.error(f"❌ Failed to generate audio. Status code: {audio_response.status_code}")
+                if audio_response.text:
+                    st.error(f"Error details: {audio_response.text}")
+        except Exception as e:
+            st.error(f"❌ Error generating or playing audio: {str(e)}")
 
 else:
     # No upload: don't show anything
