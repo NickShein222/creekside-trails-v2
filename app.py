@@ -297,14 +297,39 @@ if uploaded_file is not None:
                         }
                     )
 
-                    if audio_response.status_code == 200:
-                        audio_bytes = io.BytesIO(audio_response.content)
-                        st.audio(audio_bytes, format="audio/mp3")
-                    else:
-                        st.error("❌ Failed to generate audio.")
+if listen_audio_clicked:
+    st.subheader("🎧 Overview Audio")
 
-            else:
-                st.error("❌ Failed to identify species. Please try again.")
+    audio_response = requests.post(
+        "https://api.openai.com/v1/audio/speech",
+        headers={
+            "Authorization": f"Bearer {openai_api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": "tts-1",
+            "input": species_info.get('Overview', 'This is a species overview.'),
+            "voice": "nova",
+            "response_format": "mp3"
+        }
+    )
+
+    if audio_response.status_code == 200:
+        # Save the audio content to a BytesIO object
+        audio_bytes = io.BytesIO(audio_response.content)
+
+        # Try to play the audio normally
+        st.audio(audio_bytes, format="audio/mp3")
+
+        # Also give a download link (for mobile users if it doesn't play)
+        st.download_button(
+            label="🔊 Download Audio",
+            data=audio_bytes,
+            file_name="species_overview.mp3",
+            mime="audio/mp3"
+        )
+    else:
+        st.error("❌ Failed to generate audio.")
 
 else:
     # No upload: don't show anything
