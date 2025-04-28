@@ -65,7 +65,7 @@ segment_popularity = segment["risk"]  # Using your "risk" as segment popularity 
 crowd_score = min(round((crowd_level + segment_popularity) / 2), 10)
 
 # --- Live Weather Fetch (Santa Clara / Coyote Creek Area) ---
-api_key = "283c59d61c54b7d0c71676885db453f8"
+api_key = "Weatherapi"
 weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat=37.2294&lon=-121.7796&units=imperial&appid={api_key}"
 
 try:
