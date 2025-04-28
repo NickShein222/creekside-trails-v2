@@ -4,6 +4,7 @@ import random
 import datetime
 import base64
 from PIL import Image
+import io
 import os  
 from dotenv import load_dotenv
 load_dotenv()
@@ -297,7 +298,8 @@ if uploaded_file is not None:
                     )
 
                     if audio_response.status_code == 200:
-                        st.audio(audio_response.content, format="audio/mp3")
+                        audio_bytes = io.BytesIO(audio_response.content)
+                        st.audio(audio_bytes, format="audio/mp3")
                     else:
                         st.error("❌ Failed to generate audio.")
 
