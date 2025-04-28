@@ -37,6 +37,23 @@ st.button("Start Tracking My Hike")
 st.divider()
 
 # --- Weather and Activities ---
+api_key = os.getenv("OPENWEATHER_API_KEY")
+weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat=37.2294&lon=-121.7796&units=imperial&appid={api_key}"
+
+try:
+    weather_data = requests.get(weather_url).json()
+    temperature = weather_data["main"]["temp"]
+    wind_speed = weather_data["wind"]["speed"]
+    description = weather_data["weather"][0]["description"].capitalize()
+    icon_code = weather_data["weather"][0]["icon"]
+    icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
+except Exception as e:
+    st.error("⚠️ Unable to fetch live weather data.")
+    temperature = 72
+    wind_speed = 5
+    description = "Partly Cloudy"
+    icon_url = "https://cdn-icons-png.flaticon.com/512/1163/1163661.png"
+# Display weather data
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Current Weather")
