@@ -8,6 +8,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+# --- Page Config ---
+st.set_page_config(page_title="Creekside Trails", layout="centered")
 st.markdown(
     """
     <style>
@@ -18,8 +20,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-# --- Page Config ---
-st.set_page_config(page_title="Creekside Trails", layout="centered")
+
 
 
 # --- Hero Section ---
