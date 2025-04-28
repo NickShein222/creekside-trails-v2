@@ -283,28 +283,29 @@ if uploaded_file is not None:
 
                 if listen_audio_clicked:
                     st.subheader("🎧 Overview Audio")
-                    audio_response = requests.post(
-                        "https://api.openai.com/v1/audio/speech",
-                        headers={
-                            "Authorization": f"Bearer {openai_api_key}",
-                            "Content-Type": "application/json",
-                        },
-                        json={
-                            "model": "tts-1",
-                            "input": species_info.get('Overview', 'This is a species overview.'),
-                            "voice": "nova",
-                            "response_format": "mp3"
-                        }
-                    )
+    audio_response = requests.post(
+        "https://api.openai.com/v1/audio/speech",
+        headers={
+            "Authorization": f"Bearer {openai_api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": "tts-1",
+            "input": species_info.get('Overview', 'This is a species overview.'),
+            "voice": "nova",
+            "response_format": "mp3"
+        }
+    )
 
-                    if audio_response.status_code == 200:
-                        audio_bytes = io.BytesIO(audio_response.content)
-                        st.audio(audio_bytes, format="audio/mp3")
-                    else:
-                        st.error("❌ Failed to generate audio.")
-
-            else:
-                st.error("❌ Failed to identify species. Please try again.")
+    if audio_response.status_code == 200:
+        # Create a BytesIO object and write the content to it
+        audio_bytes = io.BytesIO(audio_response.content)
+        # Important: seek to the beginning of the stream
+        audio_bytes.seek(0)
+        # Pass to st.audio with explicit format
+        st.audio(audio_bytes, format="audio/mp3")
+    else:
+        st.error(f"❌ Failed to generate audio. Status code: {audio_response.status_code}")
 
 else:
     # No upload: don't show anything
