@@ -198,19 +198,14 @@ if uploaded_file is not None:
                 col1, col2 = st.columns([1, 1])
 
                 with col1:
-                        st.image(uploaded_file, caption="Uploaded Image", use_container_width=True)
+                    st.image(uploaded_file, caption="Uploaded Image", use_container_width=True)
 
                 with col2:
-                        st.markdown(f"### 🦋 {species_info.get('Name', 'Unknown')}")
-                        st.markdown(f"**Overview:** {species_info.get('Overview', 'No overview available.')}")
-                        
-                        # Top Speed displayed as simple text (NOT a metric box)
-                        top_speed = species_info.get('Top Speed', 'Unknown')
-                        st.markdown(f"**Top Speed:** {top_speed}")
-
-                        # Fun Fact
-                        st.info(f"Fun Fact: {species_info.get('Fun Fact', 'N/A')}")
-
+                    st.markdown(f"### 🦋 {species_info.get('Name', 'Unknown')}")
+                    st.markdown(f"**Overview:** {species_info.get('Overview', 'No overview available.')}")
+                    top_speed = species_info.get('Top Speed', 'Unknown')
+                    st.markdown(f"**Top Speed:** {top_speed}")
+                    st.info(f"Fun Fact: {species_info.get('Fun Fact', 'N/A')}")
 
                 # --- AFTER Upload and AI Results: Show Action Buttons ---
                 st.divider()
@@ -225,9 +220,9 @@ if uploaded_file is not None:
                     learn_more_clicked = st.button("🔎 Learn More About It")
 
                 with button_col3:
-                    listen_audio_clicked = st.button("🔊 Listen to Overview")
+                    listen_audio_clicked = st.button("🔊 Generate Audio")
 
-                # Handle button actions
+                # --- Handle each button separately ---
                 if more_pic_clicked:
                     st.subheader("🖼️ AI-Generated Picture")
                     dalle_response = requests.post(
@@ -281,54 +276,55 @@ if uploaded_file is not None:
                     else:
                         st.error("❌ Failed to fetch more info. Try again.")
 
-            if listen_audio_clicked:
-             st.subheader("🎧 Overview Audio")
-    with st.spinner("Generating audio..."):
-        try:
-            audio_response = requests.post(
-                "https://api.openai.com/v1/audio/speech",
-                headers={
-                    "Authorization": f"Bearer {openai_api_key}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "model": "tts-1",
-                    "input": species_info.get('Overview', 'This is a species overview.'),
-                    "voice": "nova",
-                    "response_format": "mp3"
-                }
-            )
+                if listen_audio_clicked:
+                    st.subheader("🎧 Overview Audio")
+                    with st.spinner("Generating audio..."):
+                        try:
+                            audio_response = requests.post(
+                                "https://api.openai.com/v1/audio/speech",
+                                headers={
+                                    "Authorization": f"Bearer {openai_api_key}",
+                                    "Content-Type": "application/json",
+                                },
+                                json={
+                                    "model": "tts-1",
+                                    "input": species_info.get('Overview', 'This is a species overview.'),
+                                    "voice": "nova",
+                                    "response_format": "mp3"
+                                }
+                            )
 
-            if audio_response.status_code == 200 and audio_response.content:
-                # --- New way using base64 embed ---
-                audio_bytes = audio_response.content
-                b64_audio = base64.b64encode(audio_bytes).decode()
+                            if audio_response.status_code == 200 and audio_response.content:
+                                audio_bytes = audio_response.content
+                                b64_audio = base64.b64encode(audio_bytes).decode()
 
-                audio_html = f"""
-                <audio controls>
-                    <source src="data:audio/mp3;base64,{b64_audio}" type="audio/mp3">
-                    Your browser does not support the audio element.
-                </audio>
-                """
-                st.markdown(audio_html, unsafe_allow_html=True)
+                                audio_html = f"""
+                                <div style="text-align:center;">
+                                    <audio controls style="width:90%; max-width:500px; margin-top:10px;">
+                                        <source src="data:audio/mp3;base64,{b64_audio}" type="audio/mp3">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                                """
+                                st.markdown(audio_html, unsafe_allow_html=True)
 
-                st.download_button(
-                    label="📥 Download Audio",
-                    data=audio_bytes,
-                    file_name="overview.mp3",
-                    mime="audio/mp3"
-                )
-            else:
-                st.error(f"❌ Failed to generate audio. Status code: {audio_response.status_code}")
-                if audio_response.text:
-                    st.error(f"Error details: {audio_response.text}")
-        except Exception as e:
-            st.error(f"❌ Error generating or playing audio: {str(e)}")
-
+                                st.download_button(
+                                    label="📥 Download Audio",
+                                    data=audio_bytes,
+                                    file_name="overview.mp3",
+                                    mime="audio/mp3"
+                                )
+                            else:
+                                st.error(f"❌ Failed to generate audio. Status code: {audio_response.status_code}")
+                                if audio_response.text:
+                                    st.error(f"Error details: {audio_response.text}")
+                        except Exception as e:
+                            st.error(f"❌ Error generating or playing audio: {str(e)}")
 
 else:
     # No upload: don't show anything
     pass
+
 
 
 # --- Emergency Bar ---
