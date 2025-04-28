@@ -25,17 +25,16 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
 
-# --- Trail Map Section ---
+# --- Trail Segments ---
 st.markdown('<h2 id="trail-map">Trail Segments</h2>', unsafe_allow_html=True)
 
-# Define trails and image paths
 trail_images = {
-   "Map of William Street to Phelan Avenue": "images/Coyote Creek Trail Ma.pdf.png",
-   "Map of Highway 237 Bikeway to Montague Expressway": "images/23.png",
-   "Map of Tully Road to Yerba Buena Road": "images/tully.png",
-   "Map of Yerba Buena Road to County jurisdiction": "images/yb.png",
-   "Map of Alignment from Berryessa BART to BRT (Bus Rapid Transit) Santa Clara Street": "images/BART.png",
-   "Map of 'Odette Morrow Trail' - south of Blossom Hill Road, west bank of creek": "images/Odette.png"
+    "Map of William Street to Phelan Avenue": {"image": "images/segment1.png", "risk": 4},
+    "Map of Highway 237 Bikeway to Montague Expressway": {"image": "images/segment2.png", "risk": 6},
+    "Map of Tully Road to Yerba Buena Road": {"image": "images/segment3.png", "risk": 5},
+    "Map of Yerba Buena Road to County jurisdiction": {"image": "images/segment4.png", "risk": 7},
+    "Map of Alignment from Berryessa BART to BRT Santa Clara Street": {"image": "images/segment5.png", "risk": 8},
+    "Map of 'Odette Morrow Trail'": {"image": "images/segment6.png", "risk": 6},
 }
 
 # Two-column layout: Left = Image, Right = Dropdown
