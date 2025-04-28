@@ -282,7 +282,7 @@ if uploaded_file is not None:
                         st.error("❌ Failed to fetch more info. Try again.")
 
             if listen_audio_clicked:
-                 st.subheader("🎧 Overview Audio")
+             st.subheader("🎧 Overview Audio")
     with st.spinner("Generating audio..."):
         try:
             audio_response = requests.post(
@@ -299,38 +299,25 @@ if uploaded_file is not None:
                 }
             )
 
-            if audio_response.status_code == 200:
-                # Save the audio file temporarily
-                timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-                temp_audio_path = f"temp_audio_{timestamp}.mp3"
-                
-                with open(temp_audio_path, "wb") as f:
-                    f.write(audio_response.content)
-                
-                # Read the file back and serve it
-                with open(temp_audio_path, "rb") as audio_file:
-                    audio_bytes = audio_file.read()
-                
-                # Create a download button for the audio as an alternative
+            if audio_response.status_code == 200 and audio_response.content:
+                audio_bytes = io.BytesIO(audio_response.content)
+                audio_bytes.seek(0)  # important!
+
                 st.audio(audio_bytes, format="audio/mp3")
+
                 st.download_button(
                     label="📥 Download Audio",
-                    data=audio_bytes,
-                    file_name=f"overview_{timestamp}.mp3",
+                    data=audio_response.content,
+                    file_name="overview.mp3",
                     mime="audio/mp3"
                 )
-                
-                # Clean up after serving
-                try:
-                    os.remove(temp_audio_path)
-                except:
-                    pass  # Ignore if file can't be deleted
             else:
                 st.error(f"❌ Failed to generate audio. Status code: {audio_response.status_code}")
                 if audio_response.text:
                     st.error(f"Error details: {audio_response.text}")
         except Exception as e:
             st.error(f"❌ Error generating or playing audio: {str(e)}")
+
 
 else:
     # No upload: don't show anything
