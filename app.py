@@ -300,14 +300,21 @@ if uploaded_file is not None:
             )
 
             if audio_response.status_code == 200 and audio_response.content:
-                audio_bytes = io.BytesIO(audio_response.content)
-                audio_bytes.seek(0)  # important!
+                # --- New way using base64 embed ---
+                audio_bytes = audio_response.content
+                b64_audio = base64.b64encode(audio_bytes).decode()
 
-                st.audio(audio_bytes, format="audio/mp3")
+                audio_html = f"""
+                <audio controls>
+                    <source src="data:audio/mp3;base64,{b64_audio}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+                """
+                st.markdown(audio_html, unsafe_allow_html=True)
 
                 st.download_button(
                     label="📥 Download Audio",
-                    data=audio_response.content,
+                    data=audio_bytes,
                     file_name="overview.mp3",
                     mime="audio/mp3"
                 )
