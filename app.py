@@ -8,8 +8,19 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+st.markdown(
+    """
+    <style>
+    body {
+        overflow-x: hidden;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 # --- Page Config ---
-st.set_page_config(page_title="Creekside Trails", layout="wide")
+st.set_page_config(page_title="Creekside Trails", layout="centered")
+
 
 # --- Hero Section ---
 with st.container():
@@ -39,14 +50,14 @@ trail_images = {
 
 
 # Two-column layout: Left = Image, Right = Dropdown
-col1, col2 = st.columns([2, 1])  # Wider map area
+col1, col2 = st.columns(2)  # Wider map area
 
 with col1:
     if "trail_select" not in st.session_state:
         st.session_state["trail_select"] = list(trail_images.keys())[0]
 
     selected_trail = st.session_state["trail_select"]
-    st.image(trail_images[selected_trail], width=600, caption=selected_trail)
+    st.image(trail_images[selected_trail], use_container_width=True)
 
 with col2:
     st.subheader("📍 Choose a Trail Segment", divider="rainbow")
