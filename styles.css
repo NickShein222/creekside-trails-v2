@@ -1,4 +1,4 @@
-/* styles.css (Minimal Clean Version) */
+/* Creekside Trails - Final Styles */
 
 body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -8,6 +8,7 @@ body {
   color: #333;
 }
 
+/* --- HERO SECTION --- */
 .hero {
   position: relative;
   height: 90vh;
@@ -30,15 +31,16 @@ body {
 .hero-content {
   position: relative;
   z-index: 2;
+  max-width: 700px;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
-p {
-  font-size: 1.2rem;
+.hero-content p {
+  font-size: 1.3rem;
   margin-bottom: 2rem;
 }
 
@@ -46,7 +48,7 @@ p {
   background: #006d77;
   color: white;
   padding: 0.8rem 1.5rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -59,17 +61,18 @@ p {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* Layout Wrapper */
+/* --- MAP & WEATHER SECTION --- */
 .map-weather-wrapper {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
-  margin: 2rem;
+  margin: 3rem 2rem;
 }
 
 .map-section,
 .right-panel,
-.identify-audio-wrapper,
+.map-section,
+.identify-species,
 .smart-audio-guide-section {
   background: #ffffff;
   border-radius: 12px;
@@ -77,7 +80,6 @@ p {
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* Map iframe */
 .map-container iframe {
   width: 100%;
   height: 300px;
@@ -85,12 +87,7 @@ p {
   border-radius: 12px;
 }
 
-/* Weather and Challenges */
-.current-conditions,
-.daily-challenges {
-  margin-bottom: 2rem;
-}
-
+/* Weather Card */
 .conditions-card {
   display: flex;
   align-items: center;
@@ -106,24 +103,22 @@ p {
   flex: 1;
 }
 
-.weather-text h3 {
-  margin: 0;
-  font-size: 18px;
+.temperature {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0077aa;
 }
 
 .location {
+  font-size: 16px;
   font-weight: bold;
   color: #0077aa;
-  font-size: 14px;
-}
-
-.temperature {
-  font-size: 24px;
 }
 
 .description {
   font-size: 14px;
   color: #555;
+  margin-top: 4px;
 }
 
 .trail-status {
@@ -138,73 +133,62 @@ p {
   display: inline-block;
 }
 
+/* --- ACTIVITIES SECTION --- */
 .challenge-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: #f5f5f5;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
+  padding: 1.2rem;
+  border-radius: 10px;
+  margin: 1rem 0;
   font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.challenge-status.complete {
-  color: #00aa66;
-  font-weight: bold;
+/* --- TRAIL SAFETY & REPORT --- */
+.map-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.challenge-status.incomplete {
-  color: #999;
-  font-weight: bold;
-}
-
-/* Identify Species */
+/* --- IDENTIFY SPECIES --- */
 .identify-species {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin: 2rem;
   text-align: center;
 }
 
-.camera-btn {
-  background: none;
-  border: 2px solid #006d77;
-  border-radius: 50%;
-  padding: 1rem;
-  cursor: pointer;
+/* Upload button inside */
+.stFileUploader {
   margin-top: 1rem;
-  transition: transform 0.3s;
 }
 
-.camera-btn:hover {
-  transform: scale(1.1);
-}
-
-.camera-btn img {
-  width: 30px;
-  height: 30px;
-}
-
-/* Audio Guide */
+/* --- SMART AUDIO GUIDE --- */
 .smart-audio-guide-section {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
-  margin-top: 2rem;
+  margin: 2rem;
 }
 
 .audio-guide-box {
-  display: flex;
-  align-items: center;
   background: #fafafa;
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  text-align: center;
+  flex: 1;
 }
 
-.audio-icon {
-  font-size: 2rem;
-  margin-right: 1rem;
+.audio-guide-box p {
+  margin: 0;
 }
 
-/* Emergency Bar */
+/* --- EMERGENCY BAR --- */
 .emergency-bar {
   background: #d00000;
   color: white;
@@ -217,56 +201,13 @@ p {
   z-index: 1000;
 }
 
-/* Responsive */
+/* --- MOBILE RESPONSIVE --- */
 @media (max-width: 768px) {
   .map-weather-wrapper {
     grid-template-columns: 1fr;
   }
-}
-.wildlife-explorer {
-  margin: 40px 20px;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.trail-map-container {
-  position: relative;
-  margin-top: 20px;
-}
-
-.trail-map-container img {
-  width: 100%;
-  border-radius: 12px;
-}
-
-.animal-marker {
-  position: absolute;
-  font-size: 28px;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-}
-
-.popup {
-  margin-top: 20px;
-  padding: 20px;
-  background: #e8f5e9;
-  border-radius: 10px;
-  display: inline-block;
-}
-
-.hidden {
-  display: none;
-}
-
-.close-btn {
-  margin-top: 10px;
-  background: #00aa66;
-  border: none;
-  padding: 10px 20px;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
+  
+  .smart-audio-guide-section {
+    flex-direction: column;
+  }
 }

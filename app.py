@@ -25,107 +25,14 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
 
-# --- Trail Segments ---
-st.markdown('<h2 id="trail-map">Trail Segments</h2>', unsafe_allow_html=True)
-
-trail_data = {
-    "Map of William Street to Phelan Avenue": {"image": "images/segment1.png", "risk": 4},
-    "Map of Highway 237 Bikeway to Montague Expressway": {"image": "images/segment2.png", "risk": 6},
-    "Map of Tully Road to Yerba Buena Road": {"image": "images/segment3.png", "risk": 5},
-    "Map of Yerba Buena Road to County jurisdiction": {"image": "images/segment4.png", "risk": 7},
-    "Map of Alignment from Berryessa BART to BRT Santa Clara Street": {"image": "images/segment5.png", "risk": 8},
-    "Map of 'Odette Morrow Trail'": {"image": "images/segment6.png", "risk": 6},
-}
-
-left_col, right_col = st.columns([1, 2])
-with left_col:
-    st.subheader("📍 Choose a Trail Segment")
-    selected_trail = st.selectbox("Select a trail segment:", list(trail_data.keys()))
-segment = trail_data[selected_trail]
-with right_col:
-    st.image(segment["image"], use_container_width=True, caption=selected_trail)
-
-st.divider()
-
-# --- AI Risk Score ---
-# --- Combined AI Popularity & Live Weather Comfort Score ---
-st.header("🧠 Trail Comfort & Weather Score")
-
-# --- Predict Crowd Level Based on Time ---
-hour_of_day = datetime.datetime.now().hour
-if 7 <= hour_of_day <= 10:
-    crowd_level = 3  # Low morning crowds
-elif 11 <= 16:
-    crowd_level = 8  # Peak daytime crowds
-else:
-    crowd_level = 5  # Evening medium
-
-# --- Segment Popularity Adds to Risk ---
-segment_popularity = segment["risk"]  # Using your "risk" as segment popularity proxy
-crowd_score = min(round((crowd_level + segment_popularity) / 2), 10)
-
-# --- Live Weather Fetch (Santa Clara / Coyote Creek Area) ---
-api_key = "Weatherapi"
-weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat=37.2294&lon=-121.7796&units=imperial&appid={api_key}"
-
-try:
-    weather_data = requests.get(weather_url).json()
-
-    temperature = weather_data["main"]["temp"]
-    wind_speed = weather_data["wind"]["speed"]
-    description = weather_data["weather"][0]["description"].capitalize()
-    icon_code = weather_data["weather"][0]["icon"]
-    icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
-
-except Exception as e:
-    st.error("⚠️ Unable to fetch live weather data. Comfort score may not be accurate.")
-    temperature = 72  # fallback
-    wind_speed = 5    # fallback
-    description = "Partly Cloudy"
-    icon_url = "https://cdn-icons-png.flaticon.com/512/1163/1163661.png"
-
-
-except Exception as e:
-    st.error("⚠️ Unable to fetch live weather data. Comfort score may not be accurate.")
-    temperature = 72  # fallback
-    wind_speed = 5    # fallback (safe value)
-    description = "Partly Cloudy"
-    icon_url = "https://cdn-icons-png.flaticon.com/512/1163/1163661.png"
-
-# --- Weather Factors ---
-weather_score = 0
-if temperature >= 85:
-    weather_score += 2  # hot
-if "rain" in description.lower():
-    weather_score += 3  # rain
-if wind_speed >= 15:
-    weather_score += 1  # windy
-
-# --- Final Overall Score ---
-overall_score = crowd_score + weather_score
-
-if overall_score >= 12:
-    st.error(f"🔥 Comfort & Safety Score: {overall_score}/20 – Hot, crowded, and risky conditions today.")
-    st.markdown("""
-    - 🥵 Consider waiting until evening
-    - 💧 Stay hydrated and rest often
-    - 🧑‍🤝‍🧑 Expect high trail traffic
-    """)
-elif overall_score >= 7:
-    st.warning(f"⚠️ Comfort & Safety Score: {overall_score}/20 – Conditions are moderate.")
-    st.markdown("""
-    - 😅 May be warm or lightly crowded
-    - 📅 Consider off-peak times
-    - 👟 Trail might be damp or breezy
-    """)
-else:
-    st.success(f"✅ Comfort & Safety Score: {overall_score}/20 – Great time for a hike!")
-    st.markdown("""
-    - 🌞 Ideal temperature and clear skies
-    - 🧘‍♂️ Low crowd conditions
-    - 🌲 Enjoy the peace and trail space
-    """)
-
+# --- Trail Map and Activities ---
+st.markdown('<h2 id="trail-map">Trail Map</h2>', unsafe_allow_html=True)
+st.components.v1.iframe(
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d202920.38280712665!2d-122.01206433141502!3d37.374907650948714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fc9bf5ad06955%3A0xd837faeefb7f0591!2sGuadalupe%20River%20Trail!5e0!3m2!1sen!2sus!4v1744240543990!5m2!1sen!2sus",
+    height=400,
+    width=700
+)
+st.button("Start Tracking My Hike")
 
 st.divider()
 
