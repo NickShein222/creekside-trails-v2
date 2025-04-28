@@ -25,16 +25,40 @@ with st.container():
     </div>
     """, unsafe_allow_html=True)
 
-# --- Trail Map and Activities ---
-st.markdown('<h2 id="trail-map">Trail Map</h2>', unsafe_allow_html=True)
-st.components.v1.iframe(
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d202920.38280712665!2d-122.01206433141502!3d37.374907650948714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fc9bf5ad06955%3A0xd837faeefb7f0591!2sGuadalupe%20River%20Trail!5e0!3m2!1sen!2sus!4v1744240543990!5m2!1sen!2sus",
-    height=400,
-    width=700
-)
-st.button("Start Tracking My Hike")
+# --- Trail Map Section ---
+st.markdown('<h2 id="trail-map">Trail Segments</h2>', unsafe_allow_html=True)
+
+# Define trails and image paths
+trail_images = {
+   "Map of William Street to Phelan Avenue": "images/Coyote Creek Trail Ma.pdf.png",
+   "Map of Highway 237 Bikeway to Montague Expressway": "images/23.png",
+   "Map of Tully Road to Yerba Buena Road": "images/tully.png",
+   "Map of Yerba Buena Road to County jurisdiction": "images/yb.png",
+   "Map of Alignment from Berryessa BART to BRT (Bus Rapid Transit) Santa Clara Street": "images/BART.png",
+   "Map of 'Odette Morrow Trail' - south of Blossom Hill Road, west bank of creek": "images/Odette.png"
+}
+
+# Two-column layout: Left = Image, Right = Dropdown
+col1, col2 = st.columns([2, 1])  # Wider map area
+
+with col1:
+    if "trail_select" not in st.session_state:
+        st.session_state["trail_select"] = list(trail_images.keys())[0]
+
+    selected_trail = st.session_state["trail_select"]
+    st.image(trail_images[selected_trail], width=600, caption=selected_trail)
+
+with col2:
+    st.subheader("📍 Choose a Trail Segment", divider="rainbow")
+    selected = st.selectbox(
+        "Select a trail segment:",
+        list(trail_images.keys()),
+        index=list(trail_images.keys()).index(selected_trail),
+        key="trail_select"
+    )
 
 st.divider()
+
 
 # --- Weather and Activities ---
 api_key = os.getenv("OPENWEATHER_API_KEY")
