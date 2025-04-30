@@ -77,7 +77,6 @@ weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat=37.2294&lon=
 
 try:
     weather_data = requests.get(weather_url).json()
-    st.write("Weather API response:", weather_data) 
     temperature = weather_data["main"]["temp"]
     wind_speed = weather_data["wind"]["speed"]
     description = weather_data["weather"][0]["description"].capitalize()
@@ -93,7 +92,12 @@ except Exception as e:
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Current Weather")
-    st.image(icon_url, width=100)
+    st.markdown(f"""
+    <div style="background-color:#ffffff;border-radius:12px;width:110px;height:110px;
+                display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+        <img src="{icon_url}" width="80">
+    </div>
+""", unsafe_allow_html=True)
     st.write("🌎 **Location:** Coyote Creek Trail")
     st.write(f"🌡️ **Temperature:** {temperature}°F")
     st.write(f"⛅ **Condition:** {description}")
