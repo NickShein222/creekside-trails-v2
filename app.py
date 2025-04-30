@@ -77,6 +77,7 @@ weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat=37.2294&lon=
 
 try:
     weather_data = requests.get(weather_url).json()
+    st.write("Weather API response:", weather_data) 
     temperature = weather_data["main"]["temp"]
     wind_speed = weather_data["wind"]["speed"]
     description = weather_data["weather"][0]["description"].capitalize()
