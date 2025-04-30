@@ -81,7 +81,7 @@ try:
     wind_speed = weather_data["wind"]["speed"]
     description = weather_data["weather"][0]["description"].capitalize()
     icon_code = weather_data["weather"][0]["icon"]
-    icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
+    icon_url = f"https://openweathermap.org/img/wn/{icon_code}@2x.png"
 except Exception as e:
     st.error("⚠️ Unable to fetch live weather data.")
     temperature = 72
