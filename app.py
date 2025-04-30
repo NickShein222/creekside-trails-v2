@@ -81,7 +81,7 @@ try:
     wind_speed = weather_data["wind"]["speed"]
     description = weather_data["weather"][0]["description"].capitalize()
     icon_code = weather_data["weather"][0]["icon"]
-    icon_url = f"https://openweathermap.org/img/wn/{icon_code}@2x.png"
+    icon_url = f"https://cdn-icons-png.flaticon.com/512/1163/1163661.png"
 except Exception as e:
     st.error("⚠️ Unable to fetch live weather data.")
     temperature = 72
@@ -92,16 +92,11 @@ except Exception as e:
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Current Weather")
-    st.markdown(f"""
-    <div style="background-color:#ffffff;border-radius:12px;width:110px;height:110px;
-                display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-        <img src="{icon_url}" width="80">
-    </div>
-""", unsafe_allow_html=True)
+    st.image(icon_url, width=100)
     st.write("🌎 **Location:** Coyote Creek Trail")
     st.write(f"🌡️ **Temperature:** {temperature}°F")
     st.write(f"⛅ **Condition:** {description}")
-    st.success("Trail Status: Open")  # You can later make this dynamic too if you want
+    st.success("Trail Status: Open") 
 
 
 
