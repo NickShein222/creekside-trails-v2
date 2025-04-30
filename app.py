@@ -130,32 +130,6 @@ with col2:
 
 st.divider()
 
-import streamlit as st
-import requests
-import random
-import datetime
-import base64
-from PIL import Image
-import io
-import os  
-from dotenv import load_dotenv
-load_dotenv()
-
-# --- Page Config ---
-st.set_page_config(page_title="Creekside Trails", layout="centered")
-st.markdown(
-    """
-    <style>
-    body {
-        overflow-x: hidden;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-
-
 # --- Hero Section ---
 with st.container():
     st.markdown("""
